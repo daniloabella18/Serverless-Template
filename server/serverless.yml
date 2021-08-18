@@ -18,7 +18,7 @@ org: daniloabella
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
@@ -26,6 +26,7 @@ provider:
   lambdaHashingVersion: 20201221
   region: sa-east-1
   profile: danilo
+  timeout: 30
 
 plugins:
   - serverless-offline
@@ -63,17 +64,31 @@ plugins:
 #    - include-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
-  helloUser: 
-    handler: handler.helloUser
+  food:
+    handler: handleFood.getFood
     events:
-      - http: 
-          method: GET 
-          path: /user/{name}
-  createUser: 
-    handler: handler.createUser
+      - http:
+          method: GET
+          path: /api/food
+          cors: true # <-- CORS!
+  createFood:
+    handler: handleFood.createFood
     events:
-      - http: 
+      - http:
           method: POST
-          path: /user
+          path: /api/food
+          cors: true # <-- CORS!
+  putFood:
+    handler: handleFood.putFood
+    events:
+      - http:
+          method: PUT
+          path: /api/food
+          cors: true # <-- CORS!
+  deleteFood:
+    handler: handleFood.deleteFood
+    events:
+      - http:
+          method: DELETE
+          path: /api/food/{id}
+          cors: true # <-- CORS!
