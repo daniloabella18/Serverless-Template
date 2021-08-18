@@ -9,7 +9,9 @@ module.exports.getFood = async (event) => {
 
   try {
     await FoodModel.find({}, (err, result) => {
-      error = err
+      if (err) {
+        console.log("err: ", err)
+      }
       foodArray = result
     })
   }
@@ -37,12 +39,15 @@ module.exports.putFood = async (event) => {
 
   try {
     await FoodModel.findById(id, (err, updateFood) => {
+      if (err) {
+        console.log("err: ", err)
+      }
       updateFood.foodName = newFoodName;
       updateFood.save();
     })
   }
   catch (error) {
-    return error
+    console.log("error: ", error)
   }
 
   return {
@@ -67,8 +72,8 @@ module.exports.createFood = async (event) => {
   try {
     await food.save();
   }
-  catch (err) {
-    return err;
+  catch (error) {
+    console.log("error: ", error)
   }
 
   return {
@@ -89,8 +94,8 @@ module.exports.deleteFood = async (event) => {
   try {
     await FoodModel.findByIdAndRemove(id).exec()
   }
-  catch (err) {
-    return err
+  catch (error) {
+    console.log("error: ", error)
   }
 
   return {
